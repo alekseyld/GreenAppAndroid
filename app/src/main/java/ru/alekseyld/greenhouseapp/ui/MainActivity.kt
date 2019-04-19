@@ -1,18 +1,19 @@
-package ru.alekseyld.greenhouseapp
+package ru.alekseyld.greenhouseapp.ui
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.alekseyld.greenhouseapp.R
 import ru.alekseyld.greenhouseapp.ui.control.ControlFragment
 import ru.alekseyld.greenhouseapp.ui.settings.SettingsFragment
 import ru.alekseyld.greenhouseapp.ui.statistics.StatisticsFragment
 
 class MainActivity(
-    val controlFragment: ControlFragment = ControlFragment(),
-    val settingsFragment: SettingsFragment = SettingsFragment(),
-    val statisticsFragment: StatisticsFragment = StatisticsFragment()
+    private val controlFragment: ControlFragment = ControlFragment(),
+    private val settingsFragment: SettingsFragment = SettingsFragment(),
+    private val statisticsFragment: StatisticsFragment = StatisticsFragment()
 
 ) : AppCompatActivity() {
 
