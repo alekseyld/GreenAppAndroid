@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
+
+
 
 abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment() {
 
@@ -19,6 +22,7 @@ abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment(
 
     val inject by lazy { injectDependencies() }
 
+    private val mDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,11 @@ abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment(
     override fun onDestroy() {
         presenter.destroy()
         super.onDestroy()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mDisposable.clear()
     }
 
     protected open fun hideKeyboard() {

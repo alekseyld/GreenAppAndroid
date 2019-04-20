@@ -1,6 +1,7 @@
 package ru.alekseyld.greenhouseapp.di
 
 import android.app.Application
+import android.arch.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
@@ -9,7 +10,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(AppModule::class)])
+@Component(modules = [AppModule::class, ViewModelModule::class, ViewModelFactoryModule::class])
 interface AppComponent {
     @Component.Builder
     interface Builder {
@@ -26,4 +27,6 @@ interface AppComponent {
     fun getEspGreenStateRepository(): IGreenStateRepository
 
     fun getDatabase(): GreenAppDatabase
+
+    fun getViewModelFactory(): ViewModelProvider.Factory
 }

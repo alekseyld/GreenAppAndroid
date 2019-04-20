@@ -4,7 +4,7 @@ import android.app.Application
 import ru.alekseyld.greenhouseapp.di.AppComponent
 import ru.alekseyld.greenhouseapp.di.DaggerAppComponent
 
-internal class GreenApp : Application() {
+class GreenApp : Application() {
 
     companion object {
         lateinit var component: AppComponent
