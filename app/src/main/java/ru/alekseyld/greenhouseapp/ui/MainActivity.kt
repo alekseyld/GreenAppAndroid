@@ -47,5 +47,9 @@ class MainActivity(
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        if (supportFragmentManager.findFragmentById(R.id.controller_container) == null) {
+            replaceFragment(controlFragment)
+        }
     }
 }

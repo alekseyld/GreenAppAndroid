@@ -2,13 +2,18 @@ package ru.alekseyld.greenhouseapp.ui.statistics
 
 import ru.alekseyld.greenhouseapp.GreenApp
 import ru.alekseyld.greenhouseapp.R
-import ru.alekseyld.greenhouseapp.base.BaseFragment
+import ru.alekseyld.greenhouseapp.base.BaseBindingFragment
+import ru.alekseyld.greenhouseapp.databinding.FragmentSettingsBinding
+import ru.alekseyld.greenhouseapp.databinding.FragmentStatisticsBinding
 import ru.alekseyld.greenhouseapp.ui.control.DaggerStatisticsComponent
-import ru.alekseyld.greenhouseapp.ui.control.StatisticsContract
 import ru.alekseyld.greenhouseapp.ui.control.StatisticsModule
-import ru.alekseyld.greenhouseapp.ui.control.StatisticsPresenter
+import ru.alekseyld.greenhouseapp.viewmodel.StatisticsViewModel
 
-class StatisticsFragment : BaseFragment<StatisticsPresenter, StatisticsContract.View>(), StatisticsContract.View {
+class StatisticsFragment : BaseBindingFragment<StatisticsViewModel, FragmentStatisticsBinding>() {
+
+    override fun bindVariable() {
+        binding.viewModel = viewModel
+    }
 
     override fun getLayoutId(): Int = R.layout.fragment_statistics
 

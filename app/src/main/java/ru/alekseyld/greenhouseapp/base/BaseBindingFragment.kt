@@ -1,6 +1,11 @@
 package ru.alekseyld.greenhouseapp.base
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
@@ -9,20 +14,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import io.reactivex.disposables.CompositeDisposable
+import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
 
 
 
-abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment() {
-
-    var isNotFirstLoad = false
+abstract class BaseBindingFragment<TViewModel : ViewModel, TViewBinding : ViewDataBinding> : Fragment() {
 
     @Inject
-    protected lateinit var presenter: TPresenter
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    protected lateinit var viewModel: TViewModel
+
+    protected lateinit var binding : TViewBinding
 
     val inject by lazy { injectDependencies() }
 
     private val mDisposable = CompositeDisposable()
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getViewModelType() =
+        (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<TViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,25 +42,15 @@ abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment(
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(getLayoutId(), container, false)
+        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+
         inject
-        return view
-    }
 
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelType()]
 
-    override fun onResume() {
-        super.onResume()
-        presenter.resume()
-    }
+        bindVariable()
 
-    override fun onPause() {
-        presenter.pause()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        presenter.destroy()
-        super.onDestroy()
+        return binding.root
     }
 
     override fun onStop() {
@@ -61,6 +63,8 @@ abstract class BaseFragment<TPresenter : MvpPresenter<TView>, TView> : Fragment(
         val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
+
+    protected abstract fun bindVariable()
 
     @LayoutRes
     protected abstract fun getLayoutId(): Int
