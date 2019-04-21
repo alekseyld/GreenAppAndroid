@@ -13,14 +13,16 @@ import ru.alekseyld.greenhouseapp.repository.local.RoomGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.network.EspGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.room.GreenAppDatabase
 import ru.alekseyld.greenhouseapp.repository.room.GreenStateDao
+import ru.alekseyld.greenhouseapp.ui.settings.SettingsFragment
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 class AppModule {
 
-    private val BASE_URL = "http://192.168.88.234"
-    private val PEFERENCE_NAME = "green_app"
+    companion object {
+        var BASE_URL = "http://192.168.88.234"
+    }
 
     @Singleton
     @Provides
@@ -48,8 +50,18 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(context: Context): SharedPreferences =
-        context.getSharedPreferences(PEFERENCE_NAME, Context.MODE_PRIVATE)
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        val sharedPreferences = context.getSharedPreferences(SettingsFragment.PEFERENCE_NAME, Context.MODE_PRIVATE)
+
+        if (!sharedPreferences.contains(SettingsFragment.ESP_IP)) {
+            sharedPreferences.edit()
+                .putString(SettingsFragment.ESP_IP, BASE_URL)
+                .apply()
+        }
+
+        return sharedPreferences
+    }
+
 
     @Singleton
     @Provides

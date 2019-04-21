@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.alekseyld.greenhouseapp.viewmodel.ControlViewModel
-import ru.alekseyld.greenhouseapp.viewmodel.SettingsViewModel
 import ru.alekseyld.greenhouseapp.viewmodel.StatisticsViewModel
 
 
@@ -20,9 +19,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(StatisticsViewModel::class)
     abstract fun bindStatisticsViewModel(viewModel: StatisticsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsViewModel::class)
-    abstract fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 }

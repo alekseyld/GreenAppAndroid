@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NodeView">
+        <attr name="node_title" format="string" />
+        <attr name="node_preview_text" format="string" />
+        <attr name="node_background" format="reference" />
+        <attr name="node_text_color" format="color" />
+        <attr name="node_mode" format="enum">
+            <enum name="temp" value="0" />
+            <enum name="hydro" value="1" />
+            <enum name="sun" value="2" />
+            <enum name="checkbox" value="3" />
+            <enum name="switchm" value="4" />
+        </attr>
+    </declare-styleable>
+</resources>

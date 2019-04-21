@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Подключение">
+        <EditTextPreference
+                android:dialogTitle="Введите IP адрес ESP"
+                android:key="esp_ip"
+                android:title="IP адрес ESP"
+                android:summary="192.168.88.1"/>
+    </PreferenceCategory>
+</PreferenceScreen>
