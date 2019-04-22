@@ -8,6 +8,8 @@ import android.arch.persistence.room.PrimaryKey
 data class GreenState(
     @PrimaryKey var id: Long = 0,
 
+    var date : String,
+
     var led: Boolean,
     var level: Boolean,
     var temp: Double,

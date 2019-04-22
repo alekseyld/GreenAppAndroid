@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Управление теплицей</string>
+    <string name="app_name">Теплица</string>
     <string name="title_statistics">Статистика</string>
     <string name="title_dashboard">Управление</string>
     <string name="title_settings">Настройки</string>
