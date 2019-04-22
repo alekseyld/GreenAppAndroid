@@ -30,7 +30,7 @@ abstract class BaseBindingFragment<TViewModel : ViewModel, TViewBinding : ViewDa
 
     val inject by lazy { injectDependencies() }
 
-    private val mDisposable = CompositeDisposable()
+    protected val disposable = CompositeDisposable()
 
     @Suppress("UNCHECKED_CAST")
     private fun getViewModelType() =
@@ -55,7 +55,7 @@ abstract class BaseBindingFragment<TViewModel : ViewModel, TViewBinding : ViewDa
 
     override fun onStop() {
         super.onStop()
-        mDisposable.clear()
+        disposable.clear()
     }
 
     protected open fun hideKeyboard() {

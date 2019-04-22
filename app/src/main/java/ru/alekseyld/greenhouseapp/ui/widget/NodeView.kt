@@ -17,6 +17,16 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
             valueTextView.text = value
         }
 
+    var isTurn : Boolean = false
+        set(value) {
+            field = value
+            valueText = if (value) "Включен" else "Выключен"
+
+            if (switchWidget.isChecked != value) {
+                switchWidget.isChecked = value
+            }
+        }
+
     init {
         inflate(context, R.layout.view_node, this)
 
@@ -66,14 +76,15 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
                 icon.setImageResource(R.drawable.ic_weather_sun)
             }
             3 -> { //checkbox
-
+                icon.visibility = View.GONE
             }
             4 -> { //switch
+                icon.visibility = View.GONE
                 switchWidget.visibility = View.VISIBLE
                 switchWidget.setOnCheckedChangeListener { _, isChecked ->
                     run {
                         onCheckedChange?.invoke(isChecked)
-                        valueText = if (isChecked) "Включен" else "Выключен"
+                        isTurn = isChecked
                     }
                 }
             }

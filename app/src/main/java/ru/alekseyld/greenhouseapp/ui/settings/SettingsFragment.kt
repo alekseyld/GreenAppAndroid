@@ -5,10 +5,19 @@ import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.preference.PreferenceScreen
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import ru.alekseyld.greenhouseapp.GreenApp
 import ru.alekseyld.greenhouseapp.R
+import ru.alekseyld.greenhouseapp.api.RetrofitHolder
+import javax.inject.Inject
 
 
-class SettingsFragment : PreferenceFragmentCompat() {
+public class SettingsFragment : PreferenceFragmentCompat() {
+
+    @Inject
+    lateinit var retrofitHolder: RetrofitHolder
 
     companion object {
         const val PEFERENCE_NAME = "green_app"
@@ -32,10 +41,33 @@ class SettingsFragment : PreferenceFragmentCompat() {
         bindPreferenceSummaryToValue(findPreference(ESP_IP))
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        injectDependencies()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    private fun notifyRetrofit(url: String) {
+//        if (::retrofitHolder.isInitialized) {
+//
+//        }
+        retrofitHolder.recreateRetrofit(url)
+    }
+
     private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
 
-        val stringValue = (value as SharedPreferences).getString(preference.key, "")
+        var stringValue = ""
+
+        if (value is SharedPreferences) {
+            stringValue = value.getString(preference.key, "")!!
+        } else if (value is String){
+            stringValue = value
+        }
+
         preference.summary = stringValue
+
+        if (preference.key == ESP_IP && value !is SharedPreferences) {
+            notifyRetrofit(stringValue)
+        }
 
         true
     }
@@ -47,5 +79,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // Trigger the listener immediately with the preference's
         // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, preferenceManager.sharedPreferences)
+    }
+
+    fun injectDependencies() {
+        DaggerSettingsComponent.builder()
+            .appComponent(GreenApp.component)
+            .build()
+            .inject(this)
     }
 }

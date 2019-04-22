@@ -6,8 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import ru.alekseyld.greenhouseapp.api.RetrofitHolder
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.local.RoomGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.network.EspGreenStateRepository
@@ -16,6 +15,8 @@ import ru.alekseyld.greenhouseapp.repository.room.GreenStateDao
 import ru.alekseyld.greenhouseapp.ui.settings.SettingsFragment
 import javax.inject.Named
 import javax.inject.Singleton
+
+
 
 @Module
 class AppModule {
@@ -31,12 +32,14 @@ class AppModule {
     @Singleton
     @Provides
     @Named("local")
-    fun provideRoomGreenStateRepository(greenStateDao: GreenStateDao): IGreenStateRepository = RoomGreenStateRepository(greenStateDao)
+    fun provideRoomGreenStateRepository(greenStateDao: GreenStateDao): IGreenStateRepository
+            = RoomGreenStateRepository(greenStateDao)
 
     @Singleton
     @Provides
     @Named("network")
-    fun provideEspGreenStateRepository(): IGreenStateRepository = EspGreenStateRepository()
+    fun provideEspGreenStateRepository(holder: RetrofitHolder): IGreenStateRepository
+            = EspGreenStateRepository(holder)
 
     @Singleton
     @Provides
@@ -51,7 +54,8 @@ class AppModule {
     @Singleton
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences {
-        val sharedPreferences = context.getSharedPreferences(SettingsFragment.PEFERENCE_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences
+                = context.getSharedPreferences(SettingsFragment.PEFERENCE_NAME, Context.MODE_PRIVATE)
 
         if (!sharedPreferences.contains(SettingsFragment.ESP_IP)) {
             sharedPreferences.edit()
@@ -62,16 +66,16 @@ class AppModule {
         return sharedPreferences
     }
 
-
     @Singleton
     @Provides
-    fun provideRetrofit(sharedPreferences: SharedPreferences): Retrofit {
+    fun provideRetrofit(sharedPreferences: SharedPreferences): RetrofitHolder {
 
         val url = sharedPreferences.getString("esp_url", BASE_URL)!!
 
-        return Retrofit.Builder()
-            .baseUrl(url)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofitHolder = RetrofitHolder()
+
+        retrofitHolder.recreateRetrofit(url)
+
+        return retrofitHolder
     }
 }

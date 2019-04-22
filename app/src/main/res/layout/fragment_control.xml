@@ -19,7 +19,7 @@
                 android:orientation="vertical">
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
-                    android:id="@+id/temp_node"
+                    android:id="@+id/node_temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Температура в телпице"
@@ -27,6 +27,7 @@
                     app:node_mode="temp"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_hydro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Датчик влажности"
@@ -34,6 +35,7 @@
                     app:node_mode="hydro"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_solar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Освещенность"
@@ -42,12 +44,14 @@
                     app:node_mode="sun"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Уровень"
                     app:node_background="@drawable/material_blue"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_led"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Свет"
@@ -55,6 +59,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_watering"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Полив"
@@ -62,6 +67,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_return"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Возврат"
@@ -69,6 +75,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_servo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Серво"
@@ -76,6 +83,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_fan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Вентилятор"
@@ -83,6 +91,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Красный светодиод"
@@ -90,6 +99,7 @@
                     app:node_mode="switchm"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_finish_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Конечный верх"
@@ -97,6 +107,7 @@
                     app:node_mode="checkbox"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
+                    android:id="@+id/node_finish_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Конечный низ"

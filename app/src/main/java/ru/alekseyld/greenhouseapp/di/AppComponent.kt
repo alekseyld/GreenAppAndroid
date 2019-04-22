@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
+import ru.alekseyld.greenhouseapp.api.RetrofitHolder
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.room.GreenAppDatabase
 import javax.inject.Named
@@ -29,4 +30,6 @@ interface AppComponent {
     fun getDatabase(): GreenAppDatabase
 
     fun getViewModelFactory(): ViewModelProvider.Factory
+
+    fun getRetrofitHolder(): RetrofitHolder
 }
