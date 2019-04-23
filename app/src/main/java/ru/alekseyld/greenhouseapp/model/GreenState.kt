@@ -38,7 +38,7 @@ open class GreenState(
 
     @SerializedName("win_drive")
     @ColumnInfo(name = "win_drive")
-    var winDrive : String? = null,
+    var winDrive : Boolean? = null,
 
     @SerializedName("red_led")
     @ColumnInfo(name = "red_led")

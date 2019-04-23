@@ -21,15 +21,20 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
     var isTurn : Boolean = false
         set(value) {
             field = value
-            valueText = if (value) onValue else offValue
+            valueText = if (value) onText else offText
 
             if (switchWidget.isChecked != value) {
                 switchWidget.isChecked = value
             }
+
+            onbutton.text = if (value) "Закрыть" else "Открыть"
         }
 
-    var onValue : String = "Включен"
-    var offValue : String = "Выключен"
+    private var onText : String = "Включен"
+    private var offText : String = "Выключен"
+
+    private var onValue : IEspRepository.State = IEspRepository.State.On
+    private var offValue : IEspRepository.State = IEspRepository.State.Off
 
     init {
         inflate(context, R.layout.view_node, this)
@@ -38,7 +43,8 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
     }
 
     fun getInverseState() : IEspRepository.State
-            = if(isTurn) IEspRepository.State.Off else IEspRepository.State.On
+        = if(isTurn) offValue else onValue
+
 
     private fun parseAttributeSet(attributeSet: AttributeSet) {
         val ta = context.obtainStyledAttributes(attributeSet, R.styleable.NodeView, 0, 0)
@@ -81,8 +87,8 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
             1 -> { //hydro
                 icon.setImageResource(R.drawable.ic_weather_drop)
 
-                onValue = "Сухо"
-                offValue = "Влажно"
+                onText = "Сухо"
+                offText = "Влажно"
 
                 if (isInEditMode) isTurn = false
             }
@@ -94,8 +100,8 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
             3 -> { //checkbox
                 icon.visibility = View.GONE
 
-                onValue = "Достигнут"
-                offValue = "Не достигнут"
+                onText = "Достигнут"
+                offText = "Не достигнут"
 
                 if (isInEditMode) isTurn = false
             }
@@ -110,6 +116,22 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
                 }
 
                 if (isInEditMode) isTurn = false
+            }
+
+            5 -> { //button
+                icon.visibility = View.GONE
+                onbutton.visibility = View.VISIBLE
+
+                onText = "Открыто"
+                offText = "Закрыто"
+
+                onValue = IEspRepository.State.Open
+                offValue = IEspRepository.State.Close
+
+                onbutton.setOnClickListener {
+                    onCheckedChange?.invoke(!isTurn)
+                    isTurn = !isTurn
+                }
             }
         }
     }

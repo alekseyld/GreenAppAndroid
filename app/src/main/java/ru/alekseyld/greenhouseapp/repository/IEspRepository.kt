@@ -23,9 +23,11 @@ interface IEspRepository {
 
     enum class State (val string: String) {
         Auto("auto"),
-        Manual("Manual"),
+        Manual("manual"),
         On("1"),
-        Off("0")
+        Off("0"),
+        Open("open"),
+        Close("close")
     }
 
     fun getAllStates() : Single<GreenState>

@@ -11,7 +11,7 @@ class BooleanTypeAdapter : JsonDeserializer<Boolean> {
         val data = json?.asString
 
         data?.let {
-            if(data.contains("1")) {
+            if(data.contains("1") || data.contains("open")) {
                 return true
             }
         }

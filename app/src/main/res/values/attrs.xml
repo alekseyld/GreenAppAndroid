@@ -11,6 +11,7 @@
             <enum name="sun" value="2" />
             <enum name="checkbox" value="3" />
             <enum name="switchm" value="4" />
+            <enum name="button" value="5" />
         </attr>
     </declare-styleable>
 </resources>
