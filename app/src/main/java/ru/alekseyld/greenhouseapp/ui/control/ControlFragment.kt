@@ -3,6 +3,7 @@ package ru.alekseyld.greenhouseapp.ui.control
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_control.*
 import ru.alekseyld.greenhouseapp.GreenApp
 import ru.alekseyld.greenhouseapp.R
@@ -14,6 +15,8 @@ import ru.alekseyld.greenhouseapp.ui.widget.NodeView
 import ru.alekseyld.greenhouseapp.viewmodel.ControlViewModel
 
 class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBinding>() {
+
+    private var menu: Menu? = null
 
     override fun bindVariable() {
         binding.viewModel = viewModel
@@ -29,6 +32,24 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
     }
 
     private fun updateView(greenState: GreenState) {
+
+        greenState.mode?.let {
+
+            val mes : String
+            val title = if (it.contains("manual")) {
+                mes = "Включен автоматический режим"
+
+                "В автоматический режим"
+            } else {
+                mes = "Включен ручной режим"
+
+                "В ручной режим"
+            }
+
+            Toast.makeText(context, mes, Toast.LENGTH_SHORT).show()
+
+            menu?.findItem(R.id.action_mode)?.setTitle(title)
+        }
 
         node_temp.setStringParam(greenState.temp, " °C")
         node_hydro.setTurnParam(greenState.hydro)
@@ -56,6 +77,15 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
         }
     }
 
+    private fun getInverseMode(): IEspRepository.State {
+        viewModel.greenState.value?.mode?.let {
+            if (it.contains("manual")) {
+                return IEspRepository.State.Auto
+            }
+        }
+        return IEspRepository.State.Manual
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -63,15 +93,19 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-
         inflater?.inflate(R.menu.menu_refresh, menu)
+        this.menu = menu
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when(item?.itemId) {
-            R.id.action_refresh ->{
+        when (item?.itemId) {
+            R.id.action_refresh -> {
                 viewModel.updateAll()
+                return true
+            }
+            R.id.action_mode -> {
+                viewModel.setMode(getInverseMode())
                 return true
             }
         }

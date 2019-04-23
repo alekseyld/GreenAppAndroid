@@ -6,4 +6,9 @@
             android:icon="@drawable/ic_refresh_white_24dp"
             android:title="Обновить"
             app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_mode"
+            android:title="В ручной режим"
+            app:showAsAction="never"/>
 </menu>

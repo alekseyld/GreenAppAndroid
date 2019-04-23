@@ -45,4 +45,16 @@ class ControlViewModel @Inject constructor(
                     )
     }
 
+    fun setMode(state: IEspRepository.State) {
+        disposable.value =
+                networkRepository.setMode(state)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            greenState.value = it.updateState(greenState.value!!)
+                        },
+                        this::onError
+                    )
+    }
 }
