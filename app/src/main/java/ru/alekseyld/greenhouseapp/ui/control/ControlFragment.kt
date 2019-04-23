@@ -9,6 +9,7 @@ import ru.alekseyld.greenhouseapp.R
 import ru.alekseyld.greenhouseapp.base.BaseBindingFragment
 import ru.alekseyld.greenhouseapp.databinding.FragmentControlBinding
 import ru.alekseyld.greenhouseapp.model.GreenState
+import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.ui.widget.NodeView
 import ru.alekseyld.greenhouseapp.viewmodel.ControlViewModel
 
@@ -16,11 +17,15 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
     override fun bindVariable() {
         binding.viewModel = viewModel
-
+        binding.fragment = this
 
         viewModel.greenState.observe(this, Observer {
             updateView(it!!)
         })
+    }
+
+    fun setState(view: View, node: IEspRepository.Node) {
+        viewModel.setState(node, (view as NodeView).getInverseState())
     }
 
     private fun updateView(greenState: GreenState) {
@@ -66,7 +71,7 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
         when(item?.itemId) {
             R.id.action_refresh ->{
-                disposable.add(viewModel.updateAll())
+                viewModel.updateAll()
                 return true
             }
         }

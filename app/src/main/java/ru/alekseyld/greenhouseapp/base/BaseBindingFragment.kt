@@ -1,6 +1,6 @@
 package ru.alekseyld.greenhouseapp.base
 
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -13,13 +13,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
+import ru.alekseyld.greenhouseapp.viewmodel.base.BaseViewModel
 import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
 
 
 
-abstract class BaseBindingFragment<TViewModel : ViewModel, TViewBinding : ViewDataBinding> : Fragment() {
+abstract class BaseBindingFragment<TViewModel : BaseViewModel, TViewBinding : ViewDataBinding> : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -48,9 +50,23 @@ abstract class BaseBindingFragment<TViewModel : ViewModel, TViewBinding : ViewDa
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelType()]
 
+        bindBaseViewModel()
+
         bindVariable()
 
         return binding.root
+    }
+
+    private fun bindBaseViewModel() {
+        viewModel.disposable.observe(this, Observer {
+            disposable.add(it!!)
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            it?.let { mes ->
+                Toast.makeText(activity, mes, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onStop() {

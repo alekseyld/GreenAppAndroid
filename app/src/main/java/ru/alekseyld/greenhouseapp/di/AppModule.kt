@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.alekseyld.greenhouseapp.api.RetrofitHolder
+import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.local.RoomGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.network.EspGreenStateRepository
@@ -37,8 +38,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    @Named("network")
-    fun provideEspGreenStateRepository(holder: RetrofitHolder): IGreenStateRepository
+    fun provideEspGreenStateRepository(holder: RetrofitHolder): IEspRepository
             = EspGreenStateRepository(holder)
 
     @Singleton

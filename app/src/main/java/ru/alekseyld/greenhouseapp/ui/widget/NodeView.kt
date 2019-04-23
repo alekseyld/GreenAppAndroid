@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.view_node.view.*
 import ru.alekseyld.greenhouseapp.R
+import ru.alekseyld.greenhouseapp.repository.IEspRepository
 
 class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attributeSet) {
 
@@ -20,18 +21,24 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
     var isTurn : Boolean = false
         set(value) {
             field = value
-            valueText = if (value) "Включен" else "Выключен"
+            valueText = if (value) onValue else offValue
 
             if (switchWidget.isChecked != value) {
                 switchWidget.isChecked = value
             }
         }
 
+    var onValue : String = "Включен"
+    var offValue : String = "Выключен"
+
     init {
         inflate(context, R.layout.view_node, this)
 
         parseAttributeSet(attributeSet)
     }
+
+    fun getInverseState() : IEspRepository.State
+            = if(isTurn) IEspRepository.State.Off else IEspRepository.State.On
 
     private fun parseAttributeSet(attributeSet: AttributeSet) {
         val ta = context.obtainStyledAttributes(attributeSet, R.styleable.NodeView, 0, 0)
@@ -68,15 +75,29 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
         when (mode) {
             0 -> { //temp
                 icon.setImageResource(R.drawable.ic_weather_temp)
+
+                if (isInEditMode) valueText = "25 °C"
             }
             1 -> { //hydro
                 icon.setImageResource(R.drawable.ic_weather_drop)
+
+                onValue = "Сухо"
+                offValue = "Влажно"
+
+                if (isInEditMode) isTurn = false
             }
             2 -> { //sun
                 icon.setImageResource(R.drawable.ic_weather_sun)
+
+                if (isInEditMode) valueText = "50 %"
             }
             3 -> { //checkbox
                 icon.visibility = View.GONE
+
+                onValue = "Достигнут"
+                offValue = "Не достигнут"
+
+                if (isInEditMode) isTurn = false
             }
             4 -> { //switch
                 icon.visibility = View.GONE
@@ -87,8 +108,9 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
                         isTurn = isChecked
                     }
                 }
+
+                if (isInEditMode) isTurn = false
             }
         }
     }
-
 }

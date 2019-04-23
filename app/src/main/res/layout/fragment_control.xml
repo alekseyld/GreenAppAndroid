@@ -4,9 +4,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="ru.alekseyld.greenhouseapp.repository.IEspRepository.Node"/>
+        <import type="ru.alekseyld.greenhouseapp.repository.IEspRepository.State"/>
+
         <variable
                 name="viewModel"
                 type="ru.alekseyld.greenhouseapp.viewmodel.ControlViewModel"/>
+
+        <variable
+                name="fragment"
+                type="ru.alekseyld.greenhouseapp.ui.control.ControlFragment"/>
     </data>
 
     <ScrollView
@@ -40,7 +47,7 @@
                     android:layout_height="wrap_content"
                     app:node_title="Освещенность"
                     app:node_background="@drawable/material_yellow"
-                    app:node_text_color="@android:color/black"
+                    app:node_text_color="@android:color/tertiary_text_dark"
                     app:node_mode="sun"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
@@ -48,6 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:node_title="Уровень"
+                    app:node_mode="checkbox"
                     app:node_background="@drawable/material_blue"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
@@ -56,7 +64,8 @@
                     android:layout_height="wrap_content"
                     app:node_title="Свет"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"/>
+                    app:node_mode="switchm"
+                    android:onClick="@{(v) -> fragment.setState(v, Node.Led)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                     android:id="@+id/node_watering"
@@ -64,7 +73,8 @@
                     android:layout_height="wrap_content"
                     app:node_title="Полив"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"/>
+                    app:node_mode="switchm"
+                    android:onClick="@{(v) -> fragment.setState(v, Node.PumpWatering)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                     android:id="@+id/node_return"
@@ -72,7 +82,8 @@
                     android:layout_height="wrap_content"
                     app:node_title="Возврат"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"/>
+                    app:node_mode="switchm"
+                    android:onClick="@{(v) -> fragment.setState(v, Node.PumpReturn)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                     android:id="@+id/node_servo"
@@ -88,7 +99,8 @@
                     android:layout_height="wrap_content"
                     app:node_title="Вентилятор"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"/>
+                    app:node_mode="switchm"
+                    android:onClick="@{(v) -> fragment.setState(v, Node.Fan)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                     android:id="@+id/node_red"
@@ -96,7 +108,8 @@
                     android:layout_height="wrap_content"
                     app:node_title="Красный светодиод"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"/>
+                    app:node_mode="switchm"
+                    android:onClick="@{(v) -> fragment.setState(v, Node.RedLed)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                     android:id="@+id/node_finish_up"

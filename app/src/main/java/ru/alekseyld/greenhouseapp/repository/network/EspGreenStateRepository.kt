@@ -1,13 +1,13 @@
 package ru.alekseyld.greenhouseapp.repository.network
 
-import io.reactivex.Completable
 import io.reactivex.Single
 import ru.alekseyld.greenhouseapp.api.EspRestfulApi
 import ru.alekseyld.greenhouseapp.api.RetrofitHolder
 import ru.alekseyld.greenhouseapp.model.GreenState
-import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
+import ru.alekseyld.greenhouseapp.model.PieceOfState
+import ru.alekseyld.greenhouseapp.repository.IEspRepository
 
-class EspGreenStateRepository(retrofitHolder: RetrofitHolder) : IGreenStateRepository {
+class EspGreenStateRepository(retrofitHolder: RetrofitHolder) : IEspRepository {
 
     private var api: EspRestfulApi
 
@@ -21,15 +21,18 @@ class EspGreenStateRepository(retrofitHolder: RetrofitHolder) : IGreenStateRepos
         }
     }
 
-    override fun getAllGreenStates(): Single<List<GreenState>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getAllStates(): Single<GreenState>
+        = api.getAllStates()
 
-    override fun getGreenState(): Single<GreenState> {
-        return api.getState("all")
-    }
 
-    override fun saveGreenState(greenState: GreenState): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getState(node: IEspRepository.Node): Single<PieceOfState>
+        = api.getState(node.string)
+
+
+    override fun setState(node: IEspRepository.Node, state: IEspRepository.State): Single<PieceOfState>
+        = api.setState(node.string, state.string)
+
+
+    override fun setMode(mode: IEspRepository.State): Single<PieceOfState>
+        = api.setMode(mode.string)
 }
