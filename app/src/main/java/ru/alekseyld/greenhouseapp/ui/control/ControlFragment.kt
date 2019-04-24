@@ -25,6 +25,12 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
             updateView(it!!)
         })
 
+        viewModel.loading.addObserver {
+            activity?.runOnUiThread {
+                swipeRefreshLayout?.isRefreshing = it
+            }
+        }
+
         viewModel.updateAll()
     }
 

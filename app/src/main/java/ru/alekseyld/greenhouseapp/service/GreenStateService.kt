@@ -7,6 +7,7 @@ import ru.alekseyld.greenhouseapp.model.EspRequest
 import ru.alekseyld.greenhouseapp.model.GreenState
 import ru.alekseyld.greenhouseapp.model.PieceOfState
 import ru.alekseyld.greenhouseapp.model.updateState
+import ru.alekseyld.greenhouseapp.observable.ObservableObject
 import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import java.util.*
@@ -19,13 +20,15 @@ class GreenStateService(
 
     private val queue: Queue<EspRequest>
 
-    private val state: MutableLiveData<GreenState> = MutableLiveData()
-    private val error: MutableLiveData<String> = MutableLiveData()
+    private val state = MutableLiveData<GreenState>()
+    private val error = MutableLiveData<String>()
+    private val loading = ObservableObject<Boolean>()
 
     private var currentRequest: EspRequest? = null
 
     init {
         state.value = GreenState()
+        loading.notifyObserver(false)
 
         queue = ArrayDeque()
 
@@ -43,10 +46,15 @@ class GreenStateService(
     override val errorMessage: MutableLiveData<String>
         get() = error
 
+    override val isLoading: ObservableObject<Boolean>
+        get() = loading
+
     override fun addToSchedule(espRequest: EspRequest) {
         val last = queue.peek()
 
         if (last?.equals(espRequest) != true) {
+            loading.notifyObserver(true)
+
             queue.offer(espRequest)
         }
     }
@@ -56,6 +64,7 @@ class GreenStateService(
             it.disposableHandler(it.disposable!!)
         }
         currentRequest = null
+        loading.notifyObserver(queue.size > 0)
     }
 
     private fun onNext(greenState: GreenState) {

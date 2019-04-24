@@ -1,8 +1,6 @@
 package ru.alekseyld.greenhouseapp.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
 import ru.alekseyld.greenhouseapp.model.EspRequest
-import ru.alekseyld.greenhouseapp.model.GreenState
 import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.service.IGreenStateService
 import ru.alekseyld.greenhouseapp.viewmodel.base.BaseViewModel
@@ -12,15 +10,10 @@ class ControlViewModel @Inject constructor(
     private val service: IGreenStateService
 ) : BaseViewModel() {
 
-    val greenState: MutableLiveData<GreenState> = MutableLiveData()
+    val greenState = service.greenState
+    val loading = service.isLoading
 
     init {
-        greenState.value = service.greenState.value
-
-        service.greenState.observeForever {
-            greenState.value = it
-        }
-
         service.errorMessage.observeForever {
             errorMessage.value = it
         }
