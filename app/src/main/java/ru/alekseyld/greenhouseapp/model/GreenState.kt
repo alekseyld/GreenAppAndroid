@@ -2,11 +2,15 @@ package ru.alekseyld.greenhouseapp.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "green_state")
 open class GreenState(
+
+    @Ignore var error: String? = null,
+
     @PrimaryKey var id: Long = 0,
 
     var date : String? = null,

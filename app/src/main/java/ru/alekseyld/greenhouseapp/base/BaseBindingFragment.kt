@@ -69,6 +69,10 @@ abstract class BaseBindingFragment<TViewModel : BaseViewModel, TViewBinding : Vi
         })
     }
 
+    protected fun showMessage(mes: String) {
+        Toast.makeText(context, mes, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onStop() {
         super.onStop()
         disposable.clear()

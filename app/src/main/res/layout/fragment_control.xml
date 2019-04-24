@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     app:node_title="Серво"
                     app:node_background="@drawable/material_blue"
-                    app:node_mode="switchm"
+                    app:node_mode="button"
                     android:onClick="@{(v) -> fragment.setState(v, Node.WinDrive)}"/>
 
             <ru.alekseyld.greenhouseapp.ui.widget.NodeView

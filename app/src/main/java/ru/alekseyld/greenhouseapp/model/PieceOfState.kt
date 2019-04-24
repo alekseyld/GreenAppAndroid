@@ -4,6 +4,8 @@ class PieceOfState : GreenState()
 
 fun PieceOfState.updateState(greenState: GreenState) : GreenState {
 
+    greenState.error = this.error
+
     this.mode?.let { greenState.mode = it }
     this.temp?.let { greenState.temp = it }
     this.hydro?.let { greenState.hydro = it }

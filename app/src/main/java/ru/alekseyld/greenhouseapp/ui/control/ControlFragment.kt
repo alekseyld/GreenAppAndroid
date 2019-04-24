@@ -3,7 +3,6 @@ package ru.alekseyld.greenhouseapp.ui.control
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_control.*
 import ru.alekseyld.greenhouseapp.GreenApp
 import ru.alekseyld.greenhouseapp.R
@@ -33,24 +32,6 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
     private fun updateView(greenState: GreenState) {
 
-        greenState.mode?.let {
-
-            val mes : String
-            val title = if (it.contains("manual")) {
-                mes = "Включен автоматический режим"
-
-                "В автоматический режим"
-            } else {
-                mes = "Включен ручной режим"
-
-                "В ручной режим"
-            }
-
-            Toast.makeText(context, mes, Toast.LENGTH_SHORT).show()
-
-            menu?.findItem(R.id.action_mode)?.setTitle(title)
-        }
-
         node_temp.setStringParam(greenState.temp, " °C")
         node_hydro.setTurnParam(greenState.hydro)
         node_solar.setStringParam(greenState.solar, " %")
@@ -58,11 +39,32 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
         node_led.setTurnParam(greenState.led)
         node_return.setTurnParam(greenState.pumpReturn)
         node_watering.setTurnParam(greenState.pumpWatering)
-        node_servo.setStringParam(greenState.winDrive)
+        node_servo.setTurnParam(greenState.winDrive)
         node_fan.setTurnParam(greenState.fan)
         node_red.setTurnParam(greenState.redLed)
         node_finish_up.setTurnParam(greenState.finishUp)
         node_finish_down.setTurnParam(greenState.finishDown)
+
+        greenState.mode?.let {
+
+            if (greenState.mode == it)
+                return
+
+            val mes : String
+            val title = if (it.contains("manual")) {
+                mes = "Включен ручной режим"
+
+                "В автоматический режим"
+            } else {
+                mes = "Включен автоматический режим"
+
+                "В ручной режим"
+            }
+
+            showMessage(mes)
+
+            menu?.findItem(R.id.action_mode)?.setTitle(title)
+        }
     }
 
     private fun NodeView.setStringParam(value: Any?, postfix: String = "") {

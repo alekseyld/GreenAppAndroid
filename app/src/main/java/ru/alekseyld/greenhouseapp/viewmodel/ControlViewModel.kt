@@ -27,6 +27,8 @@ class ControlViewModel @Inject constructor(
                     .subscribe(
                         {
                             greenState.value = it
+
+                            greenState.value?.error?.let { error -> errorMessage.value = error }
                         },
                         this::onError
                     )
@@ -40,6 +42,8 @@ class ControlViewModel @Inject constructor(
                     .subscribe(
                         {
                             greenState.value = it.updateState(greenState.value!!)
+
+                            greenState.value?.error?.let { error -> errorMessage.value = error }
                         },
                         this::onError
                     )
@@ -53,6 +57,8 @@ class ControlViewModel @Inject constructor(
                     .subscribe(
                         {
                             greenState.value = it.updateState(greenState.value!!)
+
+                            greenState.value?.error?.let { error -> errorMessage.value = error }
                         },
                         this::onError
                     )
