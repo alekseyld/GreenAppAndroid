@@ -13,8 +13,9 @@ import ru.alekseyld.greenhouseapp.repository.local.RoomGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.network.EspGreenStateRepository
 import ru.alekseyld.greenhouseapp.repository.room.GreenAppDatabase
 import ru.alekseyld.greenhouseapp.repository.room.GreenStateDao
+import ru.alekseyld.greenhouseapp.service.GreenStateService
+import ru.alekseyld.greenhouseapp.service.IGreenStateService
 import ru.alekseyld.greenhouseapp.ui.settings.SettingsFragment
-import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -32,7 +33,6 @@ class AppModule {
 
     @Singleton
     @Provides
-    @Named("local")
     fun provideRoomGreenStateRepository(greenStateDao: GreenStateDao): IGreenStateRepository
             = RoomGreenStateRepository(greenStateDao)
 
@@ -40,6 +40,11 @@ class AppModule {
     @Provides
     fun provideEspGreenStateRepository(holder: RetrofitHolder): IEspRepository
             = EspGreenStateRepository(holder)
+
+    @Singleton
+    @Provides
+    fun provideGreenStateService(espRepository: IEspRepository, greenStateRepository: IGreenStateRepository): IGreenStateService
+            = GreenStateService(espRepository, greenStateRepository)
 
     @Singleton
     @Provides

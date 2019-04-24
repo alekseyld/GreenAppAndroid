@@ -5,9 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
 import ru.alekseyld.greenhouseapp.api.RetrofitHolder
-import ru.alekseyld.greenhouseapp.repository.IEspRepository
-import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
-import javax.inject.Named
+import ru.alekseyld.greenhouseapp.service.IGreenStateService
 import javax.inject.Singleton
 
 @Singleton
@@ -21,10 +19,7 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    @Named("local")
-    fun getRoomGreenStateRepository(): IGreenStateRepository
-
-    fun getEspGreenStateRepository(): IEspRepository
+    fun getGreenStateService(): IGreenStateService
 
     fun getViewModelFactory(): ViewModelProvider.Factory
 

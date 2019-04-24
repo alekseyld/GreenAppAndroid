@@ -24,6 +24,8 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
         viewModel.greenState.observe(this, Observer {
             updateView(it!!)
         })
+
+        viewModel.updateAll()
     }
 
     fun setState(view: View, node: IEspRepository.Node) {
