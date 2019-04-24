@@ -17,6 +17,8 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
     private var menu: Menu? = null
 
+    private var changeMode: Boolean = false
+
     override fun bindVariable() {
         binding.viewModel = viewModel
         binding.fragment = this
@@ -55,8 +57,9 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
         greenState.mode?.let {
 
-            if (greenState.mode == it)
-                return
+            if (!changeMode) {
+                return@let
+            }
 
             val mes : String
             val title = if (it.contains("manual")) {
@@ -72,6 +75,8 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
             showMessage(mes)
 
             menu?.findItem(R.id.action_mode)?.setTitle(title)
+
+            changeMode = false
         }
     }
 
@@ -96,9 +101,22 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
         return IEspRepository.State.Manual
     }
 
+    private fun toggleMode() {
+        changeMode = true
+        viewModel.setMode(getInverseMode())
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.updateAll()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -115,7 +133,7 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
                 return true
             }
             R.id.action_mode -> {
-                viewModel.setMode(getInverseMode())
+                toggleMode()
                 return true
             }
         }

@@ -15,6 +15,7 @@ open class GreenState(
 
     var date : String? = null,
 
+    @SerializedName("manualMode")
     var mode : String? = null,
 
     var led: Boolean? = null,
