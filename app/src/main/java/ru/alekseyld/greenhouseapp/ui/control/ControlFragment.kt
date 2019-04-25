@@ -57,6 +57,9 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
         greenState.mode?.let {
 
+            mode_title.text = if (it.contains("manual")) "Режим ручного управления"
+                else "Автоматический режим"
+
             if (!changeMode) {
                 return@let
             }

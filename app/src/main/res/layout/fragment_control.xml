@@ -30,6 +30,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                <TextView
+                        android:id="@+id/mode_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Автоматический режим"
+                        android:textStyle="italic"
+                        android:textAlignment="center"/>
+
                 <ru.alekseyld.greenhouseapp.ui.widget.NodeView
                         android:id="@+id/node_temp"
                         android:layout_width="match_parent"

@@ -47,9 +47,6 @@ public class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun notifyRetrofit(url: String) {
-//        if (::retrofitHolder.isInitialized) {
-//
-//        }
         retrofitHolder.recreateRetrofit(url)
     }
 

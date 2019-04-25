@@ -39,9 +39,18 @@ class ControlViewModel @Inject constructor(
 
     fun updateAll() = addRequest(EspRequest.Type.GetAllStates)
 
-    fun setState(node: IEspRepository.Node, state: IEspRepository.State)
-        = addRequest(EspRequest.Type.SetState, listOf(node, state))
+    fun setState(node: IEspRepository.Node, state: IEspRepository.State) {
 
+        if ((greenState.value?.mode ?: "auto")
+            == IEspRepository.State.Auto.string) {
+
+            errorMessage.value = "В автоматическом режиме запрещено управление"
+
+            return
+        }
+
+        addRequest(EspRequest.Type.SetState, listOf(node, state))
+    }
 
     fun setMode(state: IEspRepository.State)
             = addRequest(EspRequest.Type.SetMode, listOf(state))
