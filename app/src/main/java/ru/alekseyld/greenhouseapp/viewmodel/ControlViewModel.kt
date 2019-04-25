@@ -1,6 +1,8 @@
 package ru.alekseyld.greenhouseapp.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import ru.alekseyld.greenhouseapp.model.EspRequest
+import ru.alekseyld.greenhouseapp.model.GreenState
 import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.service.IGreenStateService
 import ru.alekseyld.greenhouseapp.viewmodel.base.BaseViewModel
@@ -10,44 +12,37 @@ class ControlViewModel @Inject constructor(
     private val service: IGreenStateService
 ) : BaseViewModel() {
 
-    val greenState = service.greenState
+    val greenState = MutableLiveData<GreenState>()
     val loading = service.isLoading
 
     init {
-        service.errorMessage.observeForever {
+        disposable.value = service.greenState.subscribe {
+            greenState.value = it
+        }
+
+        disposable.value = service.errorMessage.subscribe {
             errorMessage.value = it
         }
     }
 
-    fun updateAll() {
+    private fun addRequest(type: EspRequest.Type) = addRequest(type, listOf())
+
+    private fun addRequest(type: EspRequest.Type, params: List<Any>) {
         service.addToSchedule(
             EspRequest(
-                EspRequest.Type.GetAllStates
-            ) {
-                disposable.value = it
-            }
+                requestType = type,
+                param = params,
+                disposableHandler = this::addDisposable
+            )
         )
     }
 
-    fun setState(node: IEspRepository.Node, state: IEspRepository.State) {
-        service.addToSchedule(
-            EspRequest(
-                EspRequest.Type.SetState,
-                listOf(node, state)
-            ) {
-                disposable.value = it
-            }
-        )
-    }
+    fun updateAll() = addRequest(EspRequest.Type.GetAllStates)
 
-    fun setMode(state: IEspRepository.State) {
-        service.addToSchedule(
-            EspRequest(
-                EspRequest.Type.SetMode,
-                listOf(state)
-            ) {
-                disposable.value = it
-            }
-        )
-    }
+    fun setState(node: IEspRepository.Node, state: IEspRepository.State)
+        = addRequest(EspRequest.Type.SetState, listOf(node, state))
+
+
+    fun setMode(state: IEspRepository.State)
+            = addRequest(EspRequest.Type.SetMode, listOf(state))
 }

@@ -2,10 +2,9 @@ package ru.alekseyld.greenhouseapp.model
 
 import io.reactivex.disposables.Disposable
 
-@Suppress("ArrayInDataClass")
 data class EspRequest(
     val requestType: Type,
-    val param: List<Any> = listOf(),
+    val param: List<Any>,
     var disposable: Disposable? = null,
     val disposableHandler: (Disposable) -> Unit
 ) {
@@ -35,5 +34,13 @@ data class EspRequest(
             return true
         }
         return false
+    }
+
+    override fun hashCode(): Int {
+        var result = requestType.hashCode()
+        result = 31 * result + param.hashCode()
+        result = 31 * result + (disposable?.hashCode() ?: 0)
+        result = 31 * result + disposableHandler.hashCode()
+        return result
     }
 }

@@ -27,11 +27,11 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
             updateView(it!!)
         })
 
-        viewModel.loading.addObserver {
+        disposable.add(viewModel.loading.subscribe {
             activity?.runOnUiThread {
                 swipeRefreshLayout?.isRefreshing = it
             }
-        }
+        })
 
         viewModel.updateAll()
     }
@@ -74,7 +74,7 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
             showMessage(mes)
 
-            menu?.findItem(R.id.action_mode)?.setTitle(title)
+            menu?.findItem(R.id.action_mode)?.title = title
 
             changeMode = false
         }

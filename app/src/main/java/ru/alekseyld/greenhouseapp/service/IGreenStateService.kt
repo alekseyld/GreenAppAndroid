@@ -1,17 +1,16 @@
 package ru.alekseyld.greenhouseapp.service
 
-import android.arch.lifecycle.MutableLiveData
+import io.reactivex.subjects.Subject
 import ru.alekseyld.greenhouseapp.model.EspRequest
 import ru.alekseyld.greenhouseapp.model.GreenState
-import ru.alekseyld.greenhouseapp.observable.ObservableObject
 
 interface IGreenStateService {
 
-    val greenState: MutableLiveData<GreenState>
+    val greenState: Subject<GreenState>
 
-    val errorMessage: MutableLiveData<String>
+    val errorMessage: Subject<String>
 
-    val isLoading: ObservableObject<Boolean>
+    val isLoading: Subject<Boolean>
 
     fun addToSchedule(espRequest: EspRequest)
 

@@ -17,4 +17,8 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
+    fun addDisposable(d: Disposable) {
+        disposable.value = d
+    }
+
 }

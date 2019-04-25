@@ -1,13 +1,14 @@
 package ru.alekseyld.greenhouseapp.service
 
-import android.arch.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import ru.alekseyld.greenhouseapp.model.EspRequest
 import ru.alekseyld.greenhouseapp.model.GreenState
 import ru.alekseyld.greenhouseapp.model.PieceOfState
 import ru.alekseyld.greenhouseapp.model.updateState
-import ru.alekseyld.greenhouseapp.observable.ObservableObject
 import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import java.util.*
@@ -20,15 +21,14 @@ class GreenStateService(
 
     private val queue: Queue<EspRequest>
 
-    private val state = MutableLiveData<GreenState>()
-    private val error = MutableLiveData<String>()
-    private val loading = ObservableObject<Boolean>()
+    private val state = BehaviorSubject.create<GreenState>()
+    private val error = PublishSubject.create<String>()
+    private val loading = PublishSubject.create<Boolean>()
 
     private var currentRequest: EspRequest? = null
 
     init {
-        state.value = GreenState()
-        loading.notifyObserver(false)
+        state.onNext(GreenState())
 
         queue = ArrayDeque()
 
@@ -40,20 +40,20 @@ class GreenStateService(
         }
     }
 
-    override val greenState: MutableLiveData<GreenState>
+    override val greenState: Subject<GreenState>
         get() = state
 
-    override val errorMessage: MutableLiveData<String>
+    override val errorMessage: Subject<String>
         get() = error
 
-    override val isLoading: ObservableObject<Boolean>
+    override val isLoading: Subject<Boolean>
         get() = loading
 
     override fun addToSchedule(espRequest: EspRequest) {
         val last = queue.peek()
 
         if (last?.equals(espRequest) != true) {
-            loading.notifyObserver(true)
+            loading.onNext(true)
 
             queue.offer(espRequest)
         }
@@ -64,16 +64,18 @@ class GreenStateService(
             it.disposableHandler(it.disposable!!)
         }
         currentRequest = null
-        loading.notifyObserver(queue.size > 0)
+        loading.onNext(queue.size > 0)
     }
 
     private fun onNext(greenState: GreenState) {
-        state.value = if (greenState is PieceOfState) {
-            greenState.updateState(state.value!!)
 
+        val newState = if (greenState is PieceOfState) {
+                greenState.updateState(state.value!!)
         } else greenState
 
-        state.value?.error?.let { error -> errorMessage.value = error }
+        state.onNext(newState)
+
+        state.value?.error?.let { error -> errorMessage.onNext(error) }
 
         clearRequest()
     }
@@ -81,7 +83,7 @@ class GreenStateService(
     private fun onError(throwable: Throwable) {
         throwable.printStackTrace()
         throwable.message?.let {
-            errorMessage.value = it
+            errorMessage.onNext(it)
         }
 
         clearRequest()

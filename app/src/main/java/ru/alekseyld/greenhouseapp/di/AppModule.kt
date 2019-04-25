@@ -24,7 +24,7 @@ import javax.inject.Singleton
 class AppModule {
 
     companion object {
-        var BASE_URL = "http://192.168.88.234"
+        var BASE_URL = "http://192.168.4.1"
     }
 
     @Singleton
@@ -75,7 +75,7 @@ class AppModule {
     @Provides
     fun provideRetrofit(sharedPreferences: SharedPreferences): RetrofitHolder {
 
-        val url = sharedPreferences.getString("esp_url", BASE_URL)!!
+        val url = sharedPreferences.getString(SettingsFragment.ESP_IP, BASE_URL)!!
 
         val retrofitHolder = RetrofitHolder()
 

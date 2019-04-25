@@ -11,14 +11,13 @@ class EspGreenStateRepository(retrofitHolder: RetrofitHolder) : IEspRepository {
 
     private var api: EspRestfulApi
 
-    init {
+     init {
 
         api = retrofitHolder.retrofit.value!!.create(EspRestfulApi::class.java)
 
-        retrofitHolder.retrofit.observeForever {
-
-            api = it!!.create(EspRestfulApi::class.java)
-        }
+         val subscribe = retrofitHolder.retrofit.subscribe {
+             api = it.create(EspRestfulApi::class.java)
+         }
     }
 
     override fun getAllStates(): Single<GreenState>

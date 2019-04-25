@@ -1,7 +1,7 @@
 package ru.alekseyld.greenhouseapp.api
 
-import android.arch.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
+import io.reactivex.subjects.BehaviorSubject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,7 +9,7 @@ import ru.alekseyld.greenhouseapp.typeadapter.BooleanTypeAdapter
 
 class RetrofitHolder {
 
-    val retrofit: MutableLiveData<Retrofit> = MutableLiveData()
+    val retrofit = BehaviorSubject.create<Retrofit>()
 
     fun recreateRetrofit(url: String) {
 
@@ -19,11 +19,11 @@ class RetrofitHolder {
             .setLenient()
             .create()
 
-        retrofit.value = Retrofit.Builder()
+        retrofit.onNext(Retrofit.Builder()
             .baseUrl(url)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+            .build())
     }
 
 }
