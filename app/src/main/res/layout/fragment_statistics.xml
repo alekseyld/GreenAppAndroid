@@ -8,28 +8,44 @@
                 name="viewModel"
                 type="ru.alekseyld.greenhouseapp.viewmodel.StatisticsViewModel"/>
     </data>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="График температуры"/>
-        <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/tempLineChart"
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_margin="10dp"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="График освещенности"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="График температуры в °С" android:textStyle="italic"
+                      android:textColor="@android:color/black" android:padding="10dp"/>
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/tempLineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"/>
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="График влажности"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="График освещенности в %" android:textStyle="italic"
+                      android:textColor="@android:color/black" android:padding="10dp"/>
 
-    </LinearLayout>
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lightLineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+            />
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="График влажности" android:textStyle="italic"
+                      android:textColor="@android:color/black"
+                      android:padding="10dp"/>
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/hydroLineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+            />
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

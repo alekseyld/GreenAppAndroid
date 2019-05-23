@@ -73,6 +73,14 @@ class GreenStateService(
                 greenState.updateState(state.value!!)
         } else greenState
 
+        newState.date = Date().toString()
+
+        currentRequest!!.disposableHandler(
+            localRepository.saveGreenState(newState)
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        )
+
         state.onNext(newState)
 
         state.value?.error?.let { error -> errorMessage.onNext(error) }

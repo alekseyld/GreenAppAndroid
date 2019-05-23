@@ -11,7 +11,7 @@ open class GreenState(
 
     @Ignore var error: String? = null,
 
-    @PrimaryKey var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
 
     var date : String? = null,
 

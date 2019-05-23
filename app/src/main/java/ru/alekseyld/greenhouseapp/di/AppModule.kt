@@ -24,6 +24,7 @@ import javax.inject.Singleton
 class AppModule {
 
     companion object {
+        //var BASE_URL = "http://192.168.88.239"
         var BASE_URL = "http://192.168.4.1"
     }
 
