@@ -12,14 +12,22 @@ import javax.inject.Inject
 
 class StreamingFragment : BaseBindingFragment<StreamingViewModel, FragmentStreamingBinding>() {
 
+
+
     @Inject
     lateinit var preferences: SharedPreferences
 
     override fun onResume() {
         super.onResume()
 
-        webcam1.loadUrl(preferences.getString(SettingsFragment.WEBCAM1_IP, ""))
-        webcam2.loadUrl(preferences.getString(SettingsFragment.WEBCAM2_IP, ""))
+        val webcam1Url = preferences.getString(SettingsFragment.WEBCAM1_IP, "")
+        val webcam2Url = preferences.getString(SettingsFragment.WEBCAM2_IP, "")
+
+        webcam1.loadData("<img src=\"$webcam1Url\" style=\"width:100%;height:100%\"/>",
+            "text/html", "UTF-8")
+
+        webcam2.loadData("<img src=\"$webcam2Url\" style=\"width:100%;height:100%\"/>",
+            "text/html", "UTF-8")
     }
 
     override fun onPause() {

@@ -9,51 +9,55 @@
                 type="ru.alekseyld.greenhouseapp.viewmodel.StreamingViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-        <TextView
-                android:text="Камера №1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/cam1_tv"
-                android:textColor="@android:color/black"
-                android:textStyle="italic"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        <WebView
-                android:id="@+id/webcam1"
-                android:layout_width="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_height="260dp"
-                app:layout_constraintTop_toBottomOf="@id/cam1_tv"/>
-        <TextView
-                android:text="Камера №2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/cam2_tv" android:textStyle="italic"
-                android:textColor="@android:color/black"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/webcam1" />
-        <WebView
-                android:id="@+id/webcam2"
-                android:layout_width="0dp"
-                android:layout_height="260dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                app:layout_constraintTop_toBottomOf="@id/cam2_tv"/>
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
 
 
-
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:paddingBottom="20dp"
+                android:orientation="vertical">
+            <TextView
+                    android:text="Камера №1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cam1_tv"
+                    android:textColor="@android:color/black"
+                    android:textStyle="italic"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            <WebView
+                    android:id="@+id/webcam1"
+                    android:layout_width="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="260dp"
+                    app:layout_constraintTop_toBottomOf="@id/cam1_tv"/>
+            <TextView
+                    android:text="Камера №2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cam2_tv" android:textStyle="italic"
+                    android:textColor="@android:color/black"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/webcam1"/>
+            <WebView
+                    android:id="@+id/webcam2"
+                    android:layout_width="0dp"
+                    android:layout_height="260dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/cam2_tv"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>
