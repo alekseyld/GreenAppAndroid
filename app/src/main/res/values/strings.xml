@@ -3,4 +3,5 @@
     <string name="title_statistics">Статистика</string>
     <string name="title_dashboard">Управление</string>
     <string name="title_settings">Настройки</string>
+    <string name="title_video">Наблюдение</string>
 </resources>

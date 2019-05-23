@@ -7,4 +7,18 @@
                 android:title="IP адрес ESP"
                 android:summary="192.168.88.1"/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="Видеонаблюдение">
+        <EditTextPreference
+                android:dialogTitle="Введите IP адрес первой видеокамеры"
+                android:key="webcam1_ip"
+                android:title="IP адрес первой видеокамеры"
+                android:summary="http://192.168.88.222:8081"/>
+
+        <EditTextPreference
+                android:dialogTitle="Введите IP адрес второй видеокамеры"
+                android:key="webcam2_ip"
+                android:title="IP адрес второй видеокамеры"
+                android:summary="http://192.168.88.222:8082"/>
+    </PreferenceCategory>
 </PreferenceScreen>

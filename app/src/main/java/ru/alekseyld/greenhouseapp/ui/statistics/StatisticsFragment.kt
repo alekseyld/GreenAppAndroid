@@ -28,6 +28,8 @@ class StatisticsFragment : BaseBindingFragment<StatisticsViewModel, FragmentStat
     private var yellowColor : Int = 0
     private val greenColor = Color.rgb(137, 230, 81)
 
+    private val url = "http://192.168.88.222:8082/"
+
     private fun Boolean.toFloat() = if (this) 1f else 0f
 
     override fun bindVariable() {
@@ -108,9 +110,6 @@ class StatisticsFragment : BaseBindingFragment<StatisticsViewModel, FragmentStat
         setupChart(tempLineChart, greenColor)
         setupChart(lightLineChart, yellowColor)
         setupChart(hydroLineChart, blueColor)
-
-
-        //tempLineChart.data = getData(10, 10f, color)
     }
 
     private fun setupChart(chart: LineChart, color: Int) {

@@ -9,11 +9,13 @@ import ru.alekseyld.greenhouseapp.R
 import ru.alekseyld.greenhouseapp.ui.control.ControlFragment
 import ru.alekseyld.greenhouseapp.ui.settings.SettingsFragment
 import ru.alekseyld.greenhouseapp.ui.statistics.StatisticsFragment
+import ru.alekseyld.greenhouseapp.ui.streaming.StreamingFragment
 
 class MainActivity(
     private val controlFragment: ControlFragment = ControlFragment(),
     private val settingsFragment: SettingsFragment = SettingsFragment(),
-    private val statisticsFragment: StatisticsFragment = StatisticsFragment()
+    private val statisticsFragment: StatisticsFragment = StatisticsFragment(),
+    private val streamingFragment: StreamingFragment = StreamingFragment()
 
 ) : AppCompatActivity() {
 
@@ -29,6 +31,10 @@ class MainActivity(
             }
             R.id.navigation_settings -> {
                 replaceFragment(settingsFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_streaming -> {
+                replaceFragment(streamingFragment)
                 return@OnNavigationItemSelectedListener true
             }
         }

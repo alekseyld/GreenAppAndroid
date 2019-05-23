@@ -2,6 +2,7 @@ package ru.alekseyld.greenhouseapp.di
 
 import android.app.Application
 import android.arch.lifecycle.ViewModelProvider
+import android.content.SharedPreferences
 import dagger.BindsInstance
 import dagger.Component
 import ru.alekseyld.greenhouseapp.api.RetrofitHolder
@@ -18,6 +19,8 @@ interface AppComponent {
 
         fun build(): AppComponent
     }
+
+    fun getSharedPreference(): SharedPreferences
 
     fun getGreenStateService(): IGreenStateService
 

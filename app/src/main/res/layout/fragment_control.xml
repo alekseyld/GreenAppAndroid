@@ -121,6 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:node_title="Красный светодиод"
+                        android:visibility="gone"
                         app:node_background="@drawable/material_blue"
                         app:node_mode="switchm"
                         android:onClick="@{(v) -> fragment.setState(v, Node.RedLed)}"/>

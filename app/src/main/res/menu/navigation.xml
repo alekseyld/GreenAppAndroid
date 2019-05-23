@@ -12,6 +12,11 @@
             android:title="@string/title_statistics"/>
 
     <item
+            android:id="@+id/navigation_streaming"
+            android:icon="@drawable/ic_videocam_black_24dp"
+            android:title="@string/title_video"/>
+
+    <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/title_settings"/>

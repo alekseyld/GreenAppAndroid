@@ -23,6 +23,8 @@ public class SettingsFragment : PreferenceFragmentCompat() {
         const val PEFERENCE_NAME = "green_app"
 
         const val ESP_IP = "esp_ip"
+        const val WEBCAM1_IP = "webcam1_ip"
+        const val WEBCAM2_IP = "webcam2_ip"
     }
 
     override fun setPreferenceScreen(preferenceScreen: PreferenceScreen?) {
