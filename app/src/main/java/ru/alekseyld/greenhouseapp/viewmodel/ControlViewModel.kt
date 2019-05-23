@@ -41,13 +41,14 @@ class ControlViewModel @Inject constructor(
 
     fun setState(node: IEspRepository.Node, state: IEspRepository.State) {
 
-        if ((greenState.value?.mode ?: "auto")
-            == IEspRepository.State.Auto.string) {
-
-            errorMessage.value = "В автоматическом режиме запрещено управление"
-
-            return
-        }
+        //FIXME
+//        if ((greenState.value?.mode ?: "auto")
+//            == IEspRepository.State.Auto.string) {
+//
+//            errorMessage.value = "В автоматическом режиме запрещено управление"
+//
+//            return
+//        }
 
         addRequest(EspRequest.Type.SetState, listOf(node, state))
     }
