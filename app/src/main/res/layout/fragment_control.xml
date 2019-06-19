@@ -76,7 +76,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:node_title="Свет"
-                        app:node_background="@drawable/material_blue"
+                        app:node_text_color="@android:color/tertiary_text_dark"
+                        app:node_background="@drawable/material_orange"
                         app:node_mode="switchm"
                         android:onClick="@{(v) -> fragment.setState(v, Node.Led)}"/>
 
@@ -103,7 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:node_title="Серво"
-                        app:node_background="@drawable/material_blue"
+                        app:node_background="@drawable/material_purple"
                         app:node_mode="button"
                         android:onClick="@{(v) -> fragment.setState(v, Node.WinDrive)}"/>
 
@@ -112,7 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:node_title="Вентилятор"
-                        app:node_background="@drawable/material_blue"
+                        app:node_background="@drawable/material_deep_blue"
                         app:node_mode="switchm"
                         android:onClick="@{(v) -> fragment.setState(v, Node.Fan)}"/>
 

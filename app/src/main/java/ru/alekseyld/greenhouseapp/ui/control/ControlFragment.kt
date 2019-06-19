@@ -29,7 +29,7 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
 
         disposable.add(viewModel.loading.subscribe {
             activity?.runOnUiThread {
-                swipeRefreshLayout?.isRefreshing = it
+                //swipeRefreshLayout?.isRefreshing = it
             }
         })
 
@@ -37,7 +37,9 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
     }
 
     fun setState(view: View, node: IEspRepository.Node) {
-        viewModel.setState(node, (view as NodeView).getInverseState())
+        (view as NodeView).isLoading = true
+
+        viewModel.setState(node, view.getInverseState())
     }
 
     private fun updateView(greenState: GreenState) {
@@ -55,43 +57,35 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
         node_finish_up.setTurnParam(greenState.finishUp)
         node_finish_down.setTurnParam(greenState.finishDown)
 
-        greenState.mode?.let {
+        try {
+            greenState.mode?.let {
 
-            mode_title.text = if (it.contains("manual")) "Режим ручного управления"
-                else "Автоматический режим"
+                mode_title.text = if (it.contains("manual")) "Режим ручного управления"
+                    else "Автоматический режим"
 
-            if (!changeMode) {
-                return@let
+                if (!changeMode) {
+                    return@let
+                }
+
+                val mes: String
+                val title = if (it.contains("manual")) {
+                    mes = "Включен ручной режим"
+
+                    "В автоматический режим"
+                } else {
+                    mes = "Включен автоматический режим"
+
+                    "В ручной режим"
+                }
+
+                showMessage(mes)
+
+                menu?.findItem(R.id.action_mode)?.title = title
+
+                changeMode = false
             }
-
-            val mes : String
-            val title = if (it.contains("manual")) {
-                mes = "Включен ручной режим"
-
-                "В автоматический режим"
-            } else {
-                mes = "Включен автоматический режим"
-
-                "В ручной режим"
-            }
-
-            showMessage(mes)
-
-            menu?.findItem(R.id.action_mode)?.title = title
-
-            changeMode = false
-        }
-    }
-
-    private fun NodeView.setStringParam(value: Any?, postfix: String = "") {
-        value?.toString()?.let {
-            this.valueText = "$it$postfix"
-        }
-    }
-
-    private fun NodeView.setTurnParam(value: Boolean?) {
-        value?.let {
-            this.isTurn = it
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -117,9 +111,10 @@ class ControlFragment : BaseBindingFragment<ControlViewModel, FragmentControlBin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout.isEnabled = false
+//        swipeRefreshLayout.setOnRefreshListener {
             viewModel.updateAll()
-        }
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

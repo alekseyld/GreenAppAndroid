@@ -12,13 +12,19 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
 
     var onCheckedChange : ((isChecked : Boolean) -> Unit)? = null
 
-    var valueText : String = ""
+    var isLoading : Boolean = false
+        set(value) {
+            field = value
+            progressBar.visibility = if (value) View.VISIBLE else View.GONE
+        }
+
+    private var valueText : String = ""
         set(value) {
             field = value
             valueTextView.text = value
         }
 
-    var isTurn : Boolean = false
+    private var isTurn : Boolean = false
         set(value) {
             field = value
             valueText = if (value) onText else offText
@@ -134,5 +140,25 @@ class NodeView(c: Context, attributeSet: AttributeSet) : LinearLayout(c, attribu
                 }
             }
         }
+    }
+
+    private fun onUpdateParam() {
+        isLoading = false
+    }
+
+    fun setStringParam(value: Any?, postfix: String = "") {
+        value?.toString()?.let {
+            this.valueText = "$it$postfix"
+        }
+
+        onUpdateParam()
+    }
+
+    fun setTurnParam(value: Boolean?) {
+        value?.let {
+            this.isTurn = it
+        }
+
+        onUpdateParam()
     }
 }

@@ -12,6 +12,7 @@ import ru.alekseyld.greenhouseapp.model.updateState
 import ru.alekseyld.greenhouseapp.repository.IEspRepository
 import ru.alekseyld.greenhouseapp.repository.IGreenStateRepository
 import java.util.*
+import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.schedule
 
 class GreenStateService(
@@ -32,10 +33,20 @@ class GreenStateService(
 
         queue = ArrayDeque()
 
-        Timer(
+//        Timer(
+//            "GreenStateScheduler",
+//            true
+//        ).schedule(0L, 200L) {
+//            processScheduler()
+//        }
+
+        fixedRateTimer(
             "GreenStateScheduler",
-            true
-        ).schedule(0L, 3500L) {
+            true,
+            0L,
+            300L
+        )
+        {
             processScheduler()
         }
     }
@@ -50,7 +61,7 @@ class GreenStateService(
         get() = loading
 
     override fun addToSchedule(espRequest: EspRequest) {
-        val last = queue.peek()
+        val last = queue.lastOrNull()
 
         if (last?.equals(espRequest) != true) {
             loading.onNext(true)
@@ -63,7 +74,7 @@ class GreenStateService(
         currentRequest?.let {
             it.disposableHandler(it.disposable!!)
         }
-        currentRequest = null
+        //currentRequest = null
         loading.onNext(queue.size > 0)
     }
 
@@ -97,6 +108,7 @@ class GreenStateService(
         clearRequest()
     }
 
+    @Synchronized
     private fun processScheduler() {
 
         val request = queue.poll()
@@ -132,6 +144,17 @@ class GreenStateService(
                 )
 
             it.disposable = disposable
+
+            if (it.requestType != EspRequest.Type.GetAllStates
+                && queue.lastOrNull()?.requestType != EspRequest.Type.GetAllStates) {
+                queue.offer(
+                    EspRequest(
+                        requestType = EspRequest.Type.GetAllStates,
+                        param = listOf(),
+                        disposableHandler = it.disposableHandler
+                ))
+            }
+
         }
     }
 }
